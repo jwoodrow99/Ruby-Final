@@ -18,7 +18,7 @@ gem 'rack-tracker'
 gem 'bootstrap-sass'
 gem 'bootstrap_form', '~> 2.7'
 gem 'devise' # https://github.com/plataformatec/devise#getting-started
-gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
+gem 'faker'
 gem 'jquery-rails'
 gem 'will_paginate'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

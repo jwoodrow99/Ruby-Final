@@ -60,5 +60,4 @@ Rails.application.configure do
     handler :google_analytics, { tracker: 'UA-116395427-1' }
   end
 
-  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end
