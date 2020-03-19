@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Comments", type: :request do
+RSpec.describe 'Comments', type: :request do
   before(:each) do
     @user = FactoryBot.create(:admin) # Create the user
     @article = FactoryBot.create(:article)
@@ -50,7 +52,7 @@ RSpec.describe "Comments", type: :request do
 
         expect(page).to have_content(@comment.message)
 
-        click_link "Show"
+        click_link 'Show'
         expect(page).to have_content(@comment.message)
         expect(page).to have_content(@comment.article.title)
         expect(page).to have_content(@comment.user.email)
@@ -60,7 +62,7 @@ RSpec.describe "Comments", type: :request do
 
     describe 'invalid: ' do
       it 'should not return a user if one does not exist' do
-        visit comment_path(99999)
+        visit comment_path(99_999)
         expect(current_path).to eq(comments_path)
         expect(page).to have_content("The comment you're looking for cannot be found")
         # save_and_open_page
@@ -71,7 +73,7 @@ RSpec.describe "Comments", type: :request do
   describe 'GET #new' do
     describe 'valid: ' do
       it 'should create a new comment with valid attributes' do
-        click_link "Comments"
+        click_link 'Comments'
         expect(current_path).to eq(comments_path)
 
         click_link 'New Comment'
@@ -88,13 +90,12 @@ RSpec.describe "Comments", type: :request do
         expect(page).to have_content('New_Message')
         expect(page).to have_content(@article.title)
         expect(page).to have_content(@user.email)
-
       end
     end
 
     describe 'invalid: ' do
       it 'should not create a new comment with invalid attributes' do
-        click_link "Comments"
+        click_link 'Comments'
         expect(current_path).to eq(comments_path)
 
         click_link 'New Comment'
@@ -119,7 +120,7 @@ RSpec.describe "Comments", type: :request do
 
         expect(page).to have_content(@comment.message)
 
-        click_link "Show"
+        click_link 'Show'
         expect(current_path).to eq(comment_path(@comment))
 
         expect(page).to have_content(@comment.message)
@@ -129,7 +130,7 @@ RSpec.describe "Comments", type: :request do
         @new_user = FactoryBot.create(:user)
         @new_article = FactoryBot.create(:article)
 
-        click_link "Edit"
+        click_link 'Edit'
         expect(current_path).to eq(edit_comment_path(@comment))
 
         fill_in 'comment_message', with: 'Edited_Comment_Message'
@@ -154,14 +155,14 @@ RSpec.describe "Comments", type: :request do
 
         expect(page).to have_content(@comment.message)
 
-        click_link "Show"
+        click_link 'Show'
         expect(current_path).to eq(comment_path(@comment))
 
         expect(page).to have_content(@comment.message)
         expect(page).to have_content(@comment.article.title)
         expect(page).to have_content(@comment.user.email)
 
-        click_link "Edit"
+        click_link 'Edit'
         expect(current_path).to eq(edit_comment_path(@comment))
 
         fill_in 'comment_message', with: ''
@@ -175,7 +176,7 @@ RSpec.describe "Comments", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     describe 'valid: ' do
       it 'should destroy an comment when destroy is clicked' do
         @comment = FactoryBot.create(:comment)
@@ -186,7 +187,7 @@ RSpec.describe "Comments", type: :request do
         click_link 'Destroy'
 
         expect(current_path).to eq(comments_path)
-        expect(page).to have_content("Comment was successfully destroyed.")
+        expect(page).to have_content('Comment was successfully destroyed.')
       end
     end
   end

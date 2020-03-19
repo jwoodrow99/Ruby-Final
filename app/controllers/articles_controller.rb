@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -14,16 +16,16 @@
 #
 
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: %i[show edit update destroy]
   after_action :verify_authorized
 
   # GET /articles
   # GET /articles.json
   def index
     authorize Article # Pass in Model Class
-    @articles = Article.paginate(:page => params[:page], :per_page => params[:per_page] ||= 30).order(created_at: :desc)
+    @articles = Article.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
     respond_to do |format|
-      format.json {render json: Article.all}
+      format.json { render json: Article.all }
       format.html {}
     end
   end
@@ -33,8 +35,8 @@ class ArticlesController < ApplicationController
   def show
     authorize @article # Pass in Model object
     respond_to do |format|
-      format.json {render json: @article}
-      format.html {@article}
+      format.json { render json: @article }
+      format.html { @article }
     end
   end
 
@@ -95,21 +97,20 @@ class ArticlesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_article
-      begin
-        @article = Article.friendly.find(params[:id])
-      rescue
-        respond_to do |format|
-          format.json {render status: 404, json: {alert: "The article you're looking for cannot be found"}}
-          format.html {redirect_to articles_path, alert: "The article you're looking for cannot be found"}
-        end
-      end
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def article_params
-      params.require(:article).permit(:title, :content, :category, :user_id)
-      # Students, make sure to add the user_id parameter as a symbol here ^^^^^^
+  # Use callbacks to share common setup or constraints between actions.
+  def set_article
+    @article = Article.friendly.find(params[:id])
+  rescue StandardError
+    respond_to do |format|
+      format.json { render status: 404, json: { alert: "The article you're looking for cannot be found" } }
+      format.html { redirect_to articles_path, alert: "The article you're looking for cannot be found" }
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def article_params
+    params.require(:article).permit(:title, :content, :category, :user_id)
+    # Students, make sure to add the user_id parameter as a symbol here ^^^^^^
+  end
 end

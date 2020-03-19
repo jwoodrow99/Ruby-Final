@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: articles
@@ -16,7 +18,7 @@
 FactoryBot.define do
   factory :article do
     sequence(:title) { |n| "title_#{n}" }
-    content "This is my content"
+    content 'This is my content'
     user
   end
 end

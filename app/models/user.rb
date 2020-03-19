@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -29,7 +31,7 @@ class User < ApplicationRecord
   # Adds in the friendlyId into the model
   extend FriendlyId
   # Sets the default find finder to slugged but defaults if not found to default finders like ID
-  friendly_id :uuid, use: [:slugged, :finders]
+  friendly_id :uuid, use: %i[slugged finders]
 
   has_many :articles
   has_many :comments
@@ -38,14 +40,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  POSSIBLE_ROLES=['Admin', 'Non-Admin']
+  POSSIBLE_ROLES = %w[Admin Non-Admin].freeze
 
   def is_admin?
-    if self.role == 'Admin'
-      true
-    else
-      false
-    end
+    role == 'Admin'
   end
-
 end

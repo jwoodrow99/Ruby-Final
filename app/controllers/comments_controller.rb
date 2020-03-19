@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: comments
@@ -14,7 +16,7 @@
 #
 
 class CommentsController < ApplicationController
-  before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  before_action :set_comment, only: %i[show edit update destroy]
   after_action :verify_authorized
 
   # GET /comments
@@ -22,9 +24,9 @@ class CommentsController < ApplicationController
   def index
     authorize Comment
 
-    @comments = Comment.paginate(:page => params[:page], :per_page => params[:per_page] ||= 30).order(created_at: :desc)
+    @comments = Comment.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
     respond_to do |format|
-      format.json {render json: Comment.all}
+      format.json { render json: Comment.all }
       format.html {}
     end
   end
@@ -35,8 +37,8 @@ class CommentsController < ApplicationController
     authorize @comment
 
     respond_to do |format|
-      format.json {render json: @comment}
-      format.html {@comment}
+      format.json { render json: @comment }
+      format.html { @comment }
     end
   end
 
@@ -98,21 +100,20 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      begin
-        @comment = Comment.friendly.find(params[:id])
-      rescue
-        respond_to do |format|
-          format.json {render status: 404, json: {alert: "The comment you're looking for cannot be found"}}
-          format.html {redirect_to comments_path, alert: "The comment you're looking for cannot be found"}
-        end
-      end
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def comment_params
-      params.require(:comment).permit(:message, :visible, :article_id, :user_id)
-      # Students, make sure to add the user_id and article ID parameter as symbols here ^^^^^^
+  # Use callbacks to share common setup or constraints between actions.
+  def set_comment
+    @comment = Comment.friendly.find(params[:id])
+  rescue StandardError
+    respond_to do |format|
+      format.json { render status: 404, json: { alert: "The comment you're looking for cannot be found" } }
+      format.html { redirect_to comments_path, alert: "The comment you're looking for cannot be found" }
     end
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def comment_params
+    params.require(:comment).permit(:message, :visible, :article_id, :user_id)
+    # Students, make sure to add the user_id and article ID parameter as symbols here ^^^^^^
+  end
 end

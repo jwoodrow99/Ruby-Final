@@ -1,5 +1,6 @@
-class CommentPolicy < ApplicationPolicy
+# frozen_string_literal: true
 
+class CommentPolicy < ApplicationPolicy
   def new?
     true
   end
@@ -19,5 +20,4 @@ class CommentPolicy < ApplicationPolicy
   def destroy?
     true
   end
-  
 end

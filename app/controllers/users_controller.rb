@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -34,9 +36,9 @@ class UsersController < ApplicationController
   def index
     authorize User
 
-    @users = User.paginate(:page => params[:page], :per_page => params[:per_page] ||= 30).order(created_at: :desc)
+    @users = User.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
     respond_to do |format|
-      format.json {render json: User.all}
+      format.json { render json: User.all }
       format.html {}
     end
   end
@@ -47,21 +49,20 @@ class UsersController < ApplicationController
     authorize @user
 
     respond_to do |format|
-      format.json {render json: @user}
-      format.html {@user}
+      format.json { render json: @user }
+      format.html { @user }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      begin
-        @user = User.friendly.find(params[:id])
-      rescue
-        respond_to do |format|
-          format.json {render status: 404, json: {alert: "The user you're looking for cannot be found"}}
-          format.html {redirect_to users_path, alert: "The user you're looking for cannot be found"}
-        end
-      end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.friendly.find(params[:id])
+  rescue StandardError
+    respond_to do |format|
+      format.json { render status: 404, json: { alert: "The user you're looking for cannot be found" } }
+      format.html { redirect_to users_path, alert: "The user you're looking for cannot be found" }
     end
+  end
 end

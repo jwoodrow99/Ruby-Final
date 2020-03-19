@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -28,12 +30,12 @@
 FactoryBot.define do
   factory :admin, class: User do
     sequence(:email) { |n| Faker::Internet.safe_email("admin_user_#{n}") }
-    password "test1234"
+    password 'test1234'
     role 'Admin'
   end
 
   factory :user, class: User do
     sequence(:email) { |n| Faker::Internet.safe_email("user_#{n}") }
-    password "test1234"
+    password 'test1234'
   end
 end

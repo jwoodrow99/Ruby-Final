@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 module GENERATE_UUID
@@ -10,12 +12,11 @@ module GENERATE_UUID
 
   # Generates a UUID for the record with the model name pre-pending the UUID
   def generate_uuid
-    self.uuid = "#{self.model_name.name}-" + SecureRandom.uuid
+    self.uuid = "#{model_name.name}-" + SecureRandom.uuid
   end
 
   # Updates the slug with the UUID after the record is created. We use a update column to avoid model callback loops
   def manually_update_slug
-    self.update_column(:slug, self.uuid)
+    update_column(:slug, uuid)
   end
-
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Articles", type: :request do
+RSpec.describe 'Articles', type: :request do
   before(:each) do
     @user = FactoryBot.create(:admin) # Create the user
 
@@ -50,7 +52,7 @@ RSpec.describe "Articles", type: :request do
 
         expect(page).to have_content(@article.title)
 
-        click_link "Show"
+        click_link 'Show'
         expect(current_path).to eq(article_path(@article))
 
         expect(page).to have_content(@article.title)
@@ -62,7 +64,7 @@ RSpec.describe "Articles", type: :request do
 
     describe 'invalid: ' do
       it 'should not return an article if one does not exist' do
-        visit article_path(99999)
+        visit article_path(99_999)
         expect(current_path).to eq(articles_path)
         expect(page).to have_content("The article you're looking for cannot be found")
         # save_and_open_page
@@ -73,7 +75,7 @@ RSpec.describe "Articles", type: :request do
   describe 'GET #new' do
     describe 'valid: ' do
       it 'should create a new article with valid attributes' do
-        click_link "Articles"
+        click_link 'Articles'
         expect(current_path).to eq(articles_path)
 
         click_link 'New Article'
@@ -92,7 +94,7 @@ RSpec.describe "Articles", type: :request do
 
     describe 'invalid: ' do
       it 'should not create a new article with invalid attributes' do
-        click_link "Articles"
+        click_link 'Articles'
         expect(current_path).to eq(articles_path)
 
         click_link 'New Article'
@@ -118,7 +120,7 @@ RSpec.describe "Articles", type: :request do
 
         expect(page).to have_content(@article.title)
 
-        click_link "Show"
+        click_link 'Show'
         expect(current_path).to eq(article_path(@article))
 
         expect(page).to have_content(@article.title)
@@ -127,7 +129,7 @@ RSpec.describe "Articles", type: :request do
 
         @new_user = FactoryBot.create(:user)
 
-        click_link "Edit"
+        click_link 'Edit'
         expect(current_path).to eq(edit_article_path(@article))
 
         fill_in 'article_title', with: 'Edited_Article_Title'
@@ -152,14 +154,14 @@ RSpec.describe "Articles", type: :request do
 
         expect(page).to have_content(@article.title)
 
-        click_link "Show"
+        click_link 'Show'
         expect(current_path).to eq(article_path(@article))
 
         expect(page).to have_content(@article.title)
         expect(page).to have_content(@article.content)
         expect(page).to have_content(@article.user.email)
 
-        click_link "Edit"
+        click_link 'Edit'
         expect(current_path).to eq(edit_article_path(@article))
 
         fill_in 'article_title', with: ''
@@ -173,7 +175,7 @@ RSpec.describe "Articles", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     describe 'valid: ' do
       it 'should destroy an article when destroy is clicked' do
         @article = FactoryBot.create(:article)
@@ -184,7 +186,7 @@ RSpec.describe "Articles", type: :request do
         click_link 'Destroy'
 
         expect(current_path).to eq(articles_path)
-        expect(page).to have_content("Article was successfully destroyed.")
+        expect(page).to have_content('Article was successfully destroyed.')
       end
     end
   end

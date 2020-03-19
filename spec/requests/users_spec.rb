@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
+RSpec.describe 'Users', type: :request do
   before(:each) do
     @user = FactoryBot.create(:admin) # Create the user
 
@@ -60,7 +62,7 @@ RSpec.describe "Users", type: :request do
 
     describe 'invalid: ' do
       it 'should not return a user if one does not exist' do
-        visit user_path(99999)
+        visit user_path(99_999)
         expect(current_path).to eq(users_path)
         expect(page).to have_content("The user you're looking for cannot be found")
         # save_and_open_page
@@ -88,7 +90,7 @@ RSpec.describe "Users", type: :request do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     describe 'valid: ' do
       # Devise handles this so we skip
     end
