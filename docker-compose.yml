@@ -2,7 +2,7 @@ version: '3.4'
 services:
   # These are backend services that the app depends on
   db:
-    image: postgres:9.6.13-alpine
+    image: postgres:11.5-alpine
     ports:
       - "54320:5432"
   redis:

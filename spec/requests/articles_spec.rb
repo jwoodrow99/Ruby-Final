@@ -185,6 +185,7 @@ RSpec.describe 'Articles', type: :request do
         expect(page).to have_content(@article.title)
         click_link 'Destroy'
 
+        save_page
         expect(current_path).to eq(articles_path)
         expect(page).to have_content('Article was successfully destroyed.')
       end

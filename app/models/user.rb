@@ -40,9 +40,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  POSSIBLE_ROLES = %w[Admin Non-Admin].freeze
+  ADMIN_ROLE = "Admin"
+  NON_ADMIN_ROLE = "Non-Admin"
+  POSSIBLE_ROLES = [ADMIN_ROLE, NON_ADMIN_ROLE].freeze
 
   def is_admin?
-    role == 'Admin'
+    role == ADMIN_ROLE
   end
 end

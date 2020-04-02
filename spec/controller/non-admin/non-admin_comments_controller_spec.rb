@@ -60,7 +60,7 @@ RSpec.describe controller_name, type: :controller do
   describe 'POST #create' do
     describe 'valid: ' do
       it "should be able to create a valid #{model_name}" do
-        @article = FactoryBot.create(:comment)
+        @article = FactoryBot.create(:article)
         params = {
           "#{model_name.parameterize.underscore.to_sym}": {
             message: SecureRandom.uuid,
@@ -98,7 +98,7 @@ RSpec.describe controller_name, type: :controller do
   describe 'PUT #update' do
     describe 'valid: ' do
       it "'should be able to change the #{model_name}'s data via ID'" do
-        @article = FactoryBot.create(:comment)
+        @article = FactoryBot.create(:article)
         @object = FactoryBot.create(model_name.to_s.underscore.downcase.to_sym)
         params = {
           id: @object.id,
@@ -118,7 +118,7 @@ RSpec.describe controller_name, type: :controller do
       end
 
       it "'should be able to change the #{model_name}'s data via UUID'" do
-        @article = FactoryBot.create(:comment)
+        @article = FactoryBot.create(:article)
         @object = FactoryBot.create(model_name.to_s.underscore.downcase.to_sym)
         params = {
           id: @object.uuid,
