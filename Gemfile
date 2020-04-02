@@ -60,10 +60,11 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails', '~> 3.7'
   gem 'selenium-webdriver'
+  gem "awesome_print", require: false
+  gem 'database_cleaner'
 end
 
 group :test do
-  gem 'database_cleaner'
   gem 'simplecov', require: false
 end
 

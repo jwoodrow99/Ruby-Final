@@ -46,8 +46,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    authorize @user
-
     respond_to do |format|
       format.json { render json: @user }
       format.html { @user }
@@ -58,11 +56,14 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.friendly.find(params[:id])
-  rescue StandardError
-    respond_to do |format|
-      format.json { render status: 404, json: { alert: "The user you're looking for cannot be found" } }
-      format.html { redirect_to users_path, alert: "The user you're looking for cannot be found" }
+    begin
+      @user = User.friendly.find(params[:id])
+    rescue StandardError
+      respond_to do |format|
+        format.json { render status: 404, json: { alert: "The user you're looking for cannot be found" } }
+        format.html { redirect_to users_path, alert: "The user you're looking for cannot be found" }
+      end
     end
+    authorize @user if @user.present?
   end
 end

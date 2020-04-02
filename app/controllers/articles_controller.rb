@@ -25,7 +25,7 @@ class ArticlesController < ApplicationController
     authorize Article # Pass in Model Class
     @articles = Article.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
     respond_to do |format|
-      format.json { render json: Article.all }
+      format.json { render json: Article.all, status: :ok }
       format.html {}
     end
   end
@@ -33,7 +33,6 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.json
   def show
-    authorize @article # Pass in Model object
     respond_to do |format|
       format.json { render json: @article }
       format.html { @article }
@@ -47,9 +46,7 @@ class ArticlesController < ApplicationController
   end
 
   # GET /articles/1/edit
-  def edit
-    authorize @article
-  end
+  def edit; end
 
   # POST /articles
   # POST /articles.json
@@ -60,10 +57,10 @@ class ArticlesController < ApplicationController
     respond_to do |format|
       if @article.save
         format.html { redirect_to @article, notice: 'Article was successfully created.' }
-        format.json { render :show, status: :created, location: @article }
+        format.json { render json: @article, status: :created }
       else
         format.html { render :new }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :bad_request }
       end
     end
   end
@@ -71,15 +68,13 @@ class ArticlesController < ApplicationController
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
   def update
-    authorize @article
-
     respond_to do |format|
       if @article.update(article_params)
         format.html { redirect_to @article, notice: 'Article was successfully updated.' }
-        format.json { render :show, status: :ok, location: @article }
+        format.json { render json: @article, status: :ok }
       else
         format.html { render :edit }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.json { render json: @article.errors, status: :bad_request }
       end
     end
   end
@@ -87,8 +82,6 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
-    authorize @article
-
     @article.destroy
     respond_to do |format|
       format.html { redirect_to articles_url, notice: 'Article was successfully destroyed.' }
@@ -100,11 +93,16 @@ class ArticlesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_article
-    @article = Article.friendly.find(params[:id])
-  rescue StandardError
-    respond_to do |format|
-      format.json { render status: 404, json: { alert: "The article you're looking for cannot be found" } }
-      format.html { redirect_to articles_path, alert: "The article you're looking for cannot be found" }
+    begin
+      @article = Article.friendly.find(params[:id])
+    rescue StandardError
+      respond_to do |format|
+        format.json { render status: 404, json: { alert: "The article you're looking for cannot be found" } }
+        format.html { redirect_to articles_path, alert: "The article you're looking for cannot be found" }
+      end
+    end
+    if @article.present?
+      authorize @article # Pass in Model object
     end
   end
 

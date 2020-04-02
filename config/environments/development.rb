@@ -59,5 +59,4 @@ Rails.application.configure do
   config.middleware.use(Rack::Tracker) do
     handler :google_analytics, { tracker: 'UA-116395427-1' }
   end
-
 end

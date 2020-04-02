@@ -13,6 +13,9 @@ require 'simplecov'
 require 'capybara/rspec'
 require 'factory_bot_rails'
 require 'devise'
+require_relative 'support/controller_helpers'
+require_relative 'support/controller_macros'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -50,6 +53,9 @@ RSpec.configure do |config|
   Warden.test_mode!
   config.include FactoryBot::Syntax::Methods
   config.include Warden::Test::Helpers
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
+  config.include ControllerHelpers, type: :controller
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -78,5 +84,9 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  config.after do
+    Warden.test_reset!
   end
 end
