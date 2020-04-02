@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-def create_seed_user(is_admin = false, first_name = Faker::Name.first_name, last_name = Faker::Name.last_name)
+def create_seed_user(is_admin = false, first_name = Faker::Name.first_name, last_name = Faker::Name.last_name, email = nil)
   full_name = "#{first_name} #{last_name}"
-  final_email = Faker::Internet.safe_email(name: full_name)
+  final_email = email ||= Faker::Internet.safe_email(name: full_name)
   p "Final Email: #{final_email}"
   user = User.find_or_initialize_by(email: final_email.downcase)
   if user.new_record?
@@ -11,7 +11,7 @@ def create_seed_user(is_admin = false, first_name = Faker::Name.first_name, last
       user.role = User::ADMIN_ROLE
     end
     if user.save
-      p "User:    #{final_email} has been saved"
+      p "User:    #{final_email} has been saved for #{first_name} #{last_name}"
     else
       raise "#{user.errors.full_messages}"
     end
@@ -54,8 +54,6 @@ Comment.all.destroy_all
 Article.all.destroy_all
 User.all.destroy_all
 
-create_seed_user(true, 'Andrew', 'Raymer')
-
 (1 .. 100).each do |_i|
   article = create_article
   if article.save
@@ -64,3 +62,6 @@ create_seed_user(true, 'Andrew', 'Raymer')
     end
   end
 end
+
+# This is to create the admin users
+create_seed_user(true, 'Andrew', 'Raymer', 'AndrewRaymer@example.com')
