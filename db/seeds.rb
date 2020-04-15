@@ -20,8 +20,9 @@ def create_seed_user(is_admin = false, first_name = Faker::Name.first_name, last
   user
 end
 
-def create_article(user = create_seed_user(true))
+def create_article(publication = create_publication, user = create_seed_user(true))
   article = Article.new
+  article.publication = publication
   article.title = "Will #{Faker::Company.name} really #{Faker::Company.bs}?"
   paragraph_1 = Faker::Lorem.paragraphs.join(' ')
   paragraph_2 = Faker::Books::Lovecraft.paragraphs.join(' ')
@@ -47,21 +48,40 @@ def create_comment(article = create_article, user = create_seed_user)
   else
     raise "#{comment.errors.full_messages}"
   end
+end
 
+def create_publication
+  publication = Publication.new
+  publication.name = Faker::Lorem.word
+  publication.description = Faker::Lorem.paragraph
+  if publication.save
+    p "Publication #{publication.uuid} has been saved!"
+  else
+    raise "#{publication.errors.full_messages}"
+  end
+  publication
 end
 
 Comment.all.destroy_all
 Article.all.destroy_all
 User.all.destroy_all
+Publication.all.destroy_all
 
-(1 .. 100).each do |_i|
-  article = create_article
-  if article.save
-    (1 .. 10).each do |_ii|
-      create_comment(article)
+(1..10).each do |_i|
+  publication = create_publication
+  if publication.save
+    (1..10).each do |_ii|
+      article = create_article(publication)
+      if article.save
+        (1..10).each do |_iii|
+          create_comment(article)
+        end
+      end
     end
   end
 end
+
+
 
 # This is to create the admin users
 create_seed_user(true, 'Andrew', 'Raymer', 'AndrewRaymer@example.com')
