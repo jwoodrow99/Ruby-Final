@@ -4,6 +4,7 @@ class PublicationsController < ApplicationController
   # GET /publications
   # GET /publications.json
   def index
+    authorize Publication
     @publications = Publication.all
   end
 
@@ -14,6 +15,7 @@ class PublicationsController < ApplicationController
 
   # GET /publications/new
   def new
+    authorize Publication
     @publication = Publication.new
   end
 
@@ -25,6 +27,7 @@ class PublicationsController < ApplicationController
   # POST /publications.json
   def create
     @publication = Publication.new(publication_params)
+    authorize @publication
 
     respond_to do |format|
       if @publication.save
