@@ -1,29 +1,47 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1>Publications</h1>
+        <%= will_paginate @publications %>
+      </div>
 
-<h1>Publications</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+        <tbody>
+          <% @publications.each do |publication| %>
+            <tr>
+              <td><%= publication.name %></td>
+              <td><%= publication.description %></td>
 
-  <tbody>
-    <% @publications.each do |publication| %>
-      <tr>
-        <td><%= publication.name %></td>
-        <td><%= publication.description %></td>
-        <td><%= link_to 'Show', publication %></td>
-        <td><%= link_to 'Edit', edit_publication_path(publication) %></td>
-        <td><%= link_to 'Destroy', publication, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+              <% if policy(publication).show? %>
+                <td><%= link_to 'Show', publication %></td>
+              <% end %>
+              <% if policy(publication).edit? %>
+                <td><%= link_to 'Edit', edit_publication_path(publication) %></td>
+              <% end %>
+              <% if policy(publication).destroy? %>
+                <td><%= link_to 'Destroy', publication, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
-<br>
+      <div class="panel-footer">
+        <% if policy(Publication).new? %>
+          <%= link_to 'New Publication', new_publication_path, class: 'btn btn-success' %>
+        <% end %>
+        <%= page_entries_info @publications %>
+      </div>
 
-<%= link_to 'New Publication', new_publication_path %>
+    </div>
+  </div>
+</div>

@@ -1,11 +1,12 @@
 class PublicationsController < ApplicationController
   before_action :set_publication, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized
 
   # GET /publications
   # GET /publications.json
   def index
     authorize Publication
-    @publications = Publication.all
+    @publications = Publication.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
   end
 
   # GET /publications/1
@@ -65,13 +66,16 @@ class PublicationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_publication
-      @publication = Publication.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_publication
+    @publication = Publication.friendly.find(params[:id])
+    if @publication.present?
+      authorize @publication
     end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def publication_params
-      params.require(:publication).permit(:name, :description)
-    end
+  # Only allow a list of trusted parameters through.
+  def publication_params
+    params.require(:publication).permit(:name, :description)
+  end
 end
