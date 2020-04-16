@@ -1,14 +1,61 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        Subscription
+      </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @subscription.name %>
-</p>
+      <div class="panel-body">
+        <p>
+          <strong>UUID:</strong>
+          <%= @subscription.uuid %>
+        </p>
 
-<p>
-  <strong>Publication:</strong>
-  <%= @subscription.publication_id %>
-</p>
+        <p>
+          <strong>Name:</strong>
+          <%= @subscription.name %>
+        </p>
 
-<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
-<%= link_to 'Back', subscriptions_path %>
+        <p>
+          <strong>Publication:</strong>
+          <%= link_to @subscription.publication.name, @subscription.publication %>
+        </p>
+      </div>
+
+      <div class="panel-footer">
+        <%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+        <%= link_to 'Back', subscriptions_path %>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h1>Users</h1>
+      </div>
+
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Email</th>
+          <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @subscription.users.order(created_at: :desc).each do |user| %>
+          <tr>
+            <td><%= link_to user.email, user %></td>
+            <td><%= link_to 'Show', user %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>

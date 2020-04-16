@@ -4,7 +4,7 @@ class SubscriptionsController < ApplicationController
   # GET /subscriptions
   # GET /subscriptions.json
   def index
-    @subscriptions = Subscription.all
+    @subscriptions = Subscription.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
   end
 
   # GET /subscriptions/1
@@ -62,13 +62,23 @@ class SubscriptionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subscription
-      @subscription = Subscription.find(params[:id])
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subscription
+    begin
+      @subscription = Subscription.friendly.find(params[:id])
+    rescue StandardError
+      respond_to do |format|
+        format.json { render status: 404, json: { alert: "The subscription you're looking for cannot be found" } }
+        format.html { redirect_to articles_path, alert: "The subscription you're looking for cannot be found" }
+      end
     end
+    # if @subscription.present?
+    #   authorize @subscription # Pass in Model object
+    # end
+  end
 
-    # Only allow a list of trusted parameters through.
-    def subscription_params
-      params.require(:subscription).permit(:name, :publication_id)
-    end
+  # Only allow a list of trusted parameters through.
+  def subscription_params
+  params.require(:subscription).permit(:name, :publication_id)
+  end
 end

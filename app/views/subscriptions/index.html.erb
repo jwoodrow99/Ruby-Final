@@ -1,29 +1,38 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h1>Subscriptions</h1>
+        <%= will_paginate @subscriptions %>
+      </div>
 
-<h1>Subscriptions</h1>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Publication</th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Publication</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+        <tbody>
+          <% @subscriptions.each do |subscription| %>
+            <tr>
+              <td><%= subscription.name %></td>
+              <td><%= subscription.publication_id %></td>
+              <td><%= link_to 'Show', subscription %></td>
+              <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
+              <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
-  <tbody>
-    <% @subscriptions.each do |subscription| %>
-      <tr>
-        <td><%= subscription.name %></td>
-        <td><%= subscription.publication_id %></td>
-        <td><%= link_to 'Show', subscription %></td>
-        <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
-        <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="panel-footer">
+        <%= link_to 'New Subscription', new_subscription_path, class: 'btn btn-success' %>
+        <%= page_entries_info @subscriptions %>
+      </div>
 
-<br>
-
-<%= link_to 'New Subscription', new_subscription_path %>
+    </div>
+  </div>
+</div>
