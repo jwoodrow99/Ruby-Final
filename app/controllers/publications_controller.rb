@@ -7,11 +7,19 @@ class PublicationsController < ApplicationController
   def index
     authorize Publication
     @publications = Publication.paginate(page: params[:page], per_page: params[:per_page] ||= 30).order(created_at: :desc)
+    respond_to do |format|
+      format.json { render json: Publication.all, status: :ok }
+      format.html {}
+    end
   end
 
   # GET /publications/1
   # GET /publications/1.json
   def show
+    respond_to do |format|
+      format.json { render json: @publication }
+      format.html { @publication }
+    end
   end
 
   # GET /publications/new
@@ -21,8 +29,7 @@ class PublicationsController < ApplicationController
   end
 
   # GET /publications/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /publications
   # POST /publications.json
