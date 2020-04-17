@@ -1,4 +1,4 @@
-[![jwoodrow99](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=shield)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
+[![CircleCI](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=shield&circle-token=3aa262e2c5586ac325a13dbff4bf015d92fd7f1a)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
 
 # WEB615-final-assignment
 
