@@ -1,4 +1,4 @@
-[![Circle Build Status](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=svg)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
+[![jwoodrow99](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=shield)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
 
 # WEB615-final-assignment
 
