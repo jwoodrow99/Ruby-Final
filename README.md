@@ -21,13 +21,6 @@ The purpose of this project is to demonstrate new technology in conjunction with
 
 ## Setup
 
-**Requirements:**
-* [RVM](https://rvm.io/rvm/install)
-
-* Ruby
-* Rails
-* Postgrsql
-
 A setup file has been included in our project in the bin folder called setup. In order to get the project running or your machine you must first have all of the required software installed.
 
 1. Install Docker
