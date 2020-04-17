@@ -1,4 +1,4 @@
-[![jwoodrow99](https://circleci.com/gh/jwoodrow99/web615-final-assignment/tree/teesloane-patch-5.svg?style=svg)](https://circleci.com/gh/jwoodrow99/web615-final-assignment/tree/teesloane-patch-5)
+[![Circle Build Status](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=svg)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
 
 # WEB615-final-assignment
 
