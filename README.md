@@ -1,4 +1,4 @@
-[![jwoodrow99](https://circleci.com/gh/jwoodrow99/web615-final-assignment.svg?style=shield)](https://circleci.com/gh/jwoodrow99/web615-final-assignment)
+[![jwoodrow99](https://circleci.com/github/jwoodrow99/web615-final-assignment.svg?style=shield)](https://circleci.com/github/jwoodrow99/web615-final-assignment)
 
 # WEB615-final-assignment
 
